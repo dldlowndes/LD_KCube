@@ -120,6 +120,18 @@ int LD_KCube::RecvResponse(std::vector<uint8_t> &response, int num_Chars, int wa
 
 bool LD_KCube::CheckResponse(std::vector<uint8_t> response, std::vector<uint8_t> expected_Header){
     bool header_Good = std::equal(response.begin(), response.begin()+6, expected_Header.begin());
+    if(!header_Good){
+        std::cout << "Headers don't match!\n";
+        std::cout << "Expected: ";
+        std::cout << std::hex;
+        for(auto x: expected_Header){std::cout << (int)x << ", ";}
+        std::cout << std::dec <<"\n";
+        std::cout << "Received: ";
+        std::cout << std::hex;
+        for(int i=0; i<6; i++){std::cout << (int)response[i] << ", ";}
+        std::cout << std::dec <<"\n";
+    }
+
     return header_Good;
 }
 

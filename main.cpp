@@ -43,7 +43,7 @@ int Rot_Example(){
 }
 
 int main(){
-    Rot_Example();
+    PSD_Example();
 
     return 0;
 }

@@ -63,7 +63,7 @@ class LD_KCube
         // Wait_ms is a wait between attempts to read the port (until the number
         // of characters is read or timeout). Timeout_ms is how many ms to wait
         // until giving up on the response. (i.e something probably went wrong).
-        int RecvResponse(std::vector<uint8_t> &response, int num_Chars, int wait_ms, int timeout_ms);
+        int RecvResponse(std::vector<uint8_t> &response, int num_Chars, int wait_ms=1, int timeout_ms=100);
         // Each message has a header and then (optionally) a payload. Obviously the
         // payload is only valid if the header is as expected. Pass in the message
         // and expected header and check they match.

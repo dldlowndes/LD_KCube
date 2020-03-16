@@ -1,5 +1,6 @@
 #include "LD_ThorPSD.h"
 
+#include <fstream>
 #include <iostream>
 #include <vector>
 
@@ -11,7 +12,7 @@ LD_ThorPSD::LD_ThorPSD(std::string comport_Name){
 
     Connect(comport_Name);
 
-    Set_Operation_Mode(0x02);
+    Set_Operation_Mode(0x01);
 }
 
 LD_ThorPSD::~LD_ThorPSD(){
@@ -31,6 +32,7 @@ int LD_ThorPSD::Get_Operation_Mode(){
         return mode;
     }
     else{
+        std::cout << "Response not as expected\n";
         return -1;
     }
 }
@@ -54,10 +56,10 @@ int LD_ThorPSD::Set_Operation_Mode(uint8_t mode){
 
 PSD_Data LD_ThorPSD::Get_PSD_Data(){
     std::vector<uint8_t> command{0x71, 0x08, 0x03, 0x00, 0x50, 0x01};
-    std::vector<uint8_t> expected{0x72, 0x08, 0x0C, 0x00, 0x50, 0x01};
+    std::vector<uint8_t> expected{0x71, 0x08, 0x03, 0x00, 0x50, 0x01};
     std::vector<uint8_t> response;
     SendCommand(command);
-    RecvResponse(response, 18, 0.1, 1000);
+    RecvResponse(response, 18, 0.1, 10);
 
     PSD_Data my_PSD_Data{0, 0, 0};
 

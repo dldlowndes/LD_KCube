@@ -6,6 +6,8 @@
 *.lo
 *.o
 *.obj
+obj/*
+bin/*
 
 # Precompiled Headers
 *.gch
@@ -30,3 +32,8 @@
 *.exe
 *.out
 *.app
+
+*.depend
+*.layout
+*.csv
+*.py
