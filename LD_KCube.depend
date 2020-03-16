@@ -1,0 +1,50 @@
+# depslib dependency file v1.0
+1584364562 source:/home/dl3752/Work/github/LD_KCube/main.cpp
+	"LD_ThorPSD.h"
+	<iostream>
+
+1584363662 /home/dl3752/Work/github/LD_KCube/include/LD_KCube.h
+	<string>
+	<vector>
+
+1584031362 source:/home/dl3752/Work/github/LD_KCube/src/LD_Util.cpp
+	"LD_Util.h"
+	<iostream>
+	<Windows.h>
+	<unistd.h>
+
+1584031362 /home/dl3752/Work/github/LD_KCube/include/LD_Util.h
+	<chrono>
+
+1584031362 source:/home/dl3752/Work/github/LD_KCube/src/rs232.cpp
+	"rs232.h"
+
+1584031362 /home/dl3752/Work/github/LD_KCube/include/rs232.h
+	<stdio.h>
+	<string.h>
+	<termios.h>
+	<sys/ioctl.h>
+	<unistd.h>
+	<fcntl.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<limits.h>
+	<sys/file.h>
+	<errno.h>
+	<windows.h>
+
+1584361981 source:/home/dl3752/Work/github/LD_KCube/src/LD_KCube.cpp
+	"LD_KCube.h"
+	<iostream>
+	"rs232.h"
+	"LD_Util.h"
+
+1584364458 source:/home/dl3752/Work/github/LD_KCube/src/LD_ThorPSD.cpp
+	"LD_ThorPSD.h"
+	<iostream>
+	<vector>
+
+1584364431 /home/dl3752/Work/github/LD_KCube/include/LD_ThorPSD.h
+	<LD_KCube.h>
+	<string>
+
