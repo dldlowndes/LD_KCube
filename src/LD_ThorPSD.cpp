@@ -3,9 +3,7 @@
 #include <iostream>
 #include <vector>
 
-LD_ThorPSD::LD_ThorPSD()
-{
-
+LD_ThorPSD::LD_ThorPSD(){
 }
 
 LD_ThorPSD::LD_ThorPSD(std::string comport_Name){
@@ -16,9 +14,7 @@ LD_ThorPSD::LD_ThorPSD(std::string comport_Name){
     Set_Operation_Mode(0x02);
 }
 
-LD_ThorPSD::~LD_ThorPSD()
-{
-    //dtor
+LD_ThorPSD::~LD_ThorPSD(){
 }
 
 int LD_ThorPSD::Get_Operation_Mode(){
@@ -66,9 +62,9 @@ PSD_Data LD_ThorPSD::Get_PSD_Data(){
     PSD_Data my_PSD_Data{0, 0, 0};
 
     if(CheckResponse(command, expected)){
-        my_PSD_Data.x_Diff = Buf_To_Short(response, 8);
-        my_PSD_Data.y_Diff = Buf_To_Short(response, 10);
-        my_PSD_Data.xy_Sum = Buf_To_Uint16(response, 12);
+        Buf_To(response, 8, my_PSD_Data.x_Diff);
+        Buf_To(response, 10, my_PSD_Data.y_Diff);
+        Buf_To(response, 12, my_PSD_Data.xy_Sum);
     }
 
     return my_PSD_Data;

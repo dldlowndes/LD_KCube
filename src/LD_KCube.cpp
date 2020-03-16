@@ -5,20 +5,15 @@
 #include "rs232.h"
 #include "LD_Util.h"
 
-LD_KCube::LD_KCube()
-{
-
+LD_KCube::LD_KCube(){
 }
 
-LD_KCube::~LD_KCube()
-{
-
+LD_KCube::~LD_KCube(){
 }
 
 LD_KCube::LD_KCube(std::string comport_Name)
 {
     LD_KCube();
-
     Connect(comport_Name);
 }
 
@@ -54,13 +49,13 @@ int LD_KCube::Close(){
 int LD_KCube::Init(){
     m_HWInfo = Get_HWInfo();
     std::cout << "HWInfo output\n";
-    std::cout << "\tSerial No: " << m_HWInfo.serial_Number << "\n";
+    std::cout << "\tSerial No: " << (int)m_HWInfo.serial_Number << "\n";
     std::cout << "\tModel No: " << m_HWInfo.model_Number << "\n";
-    std::cout << "\tHW Type: " << m_HWInfo.hw_Type << "\n";
-    std::cout << "\tFW Version: " << m_HWInfo.fw_Version << "\n";
-    std::cout << "\tHW Version: " << m_HWInfo.hw_Version << "\n";
-    std::cout << "\tMod state: " << m_HWInfo.mod_State << "\n";
-    std::cout << "\tNum Chans: " << m_HWInfo.num_Chans << "\n";
+    std::cout << "\tHW Type: " << (int)m_HWInfo.hw_Type << "\n";
+    std::cout << "\tFW Version: " << (int)m_HWInfo.fw_Version << "\n";
+    std::cout << "\tHW Version: " << (int)m_HWInfo.hw_Version << "\n";
+    std::cout << "\tMod state: " << (int)m_HWInfo.mod_State << "\n";
+    std::cout << "\tNum Chans: " << (int)m_HWInfo.num_Chans << "\n";
 
     return 0;
 }
@@ -138,15 +133,15 @@ HWInfo LD_KCube::Get_HWInfo(){
     RecvResponse(response, 90, 5, 500);
 
     if (CheckResponse(response, expected)){
-        m_HWInfo.serial_Number = Buf_To_Long(response, 6);
+        Buf_To(response, 6, m_HWInfo.serial_Number);
 
 
         m_HWInfo.model_Number = Buf_To_String(response, 10, 8);
-        m_HWInfo.hw_Type = Buf_To_Short(response, 18);
-        m_HWInfo.fw_Version = Buf_To_Long(response, 20);
-        m_HWInfo.hw_Version = Buf_To_Short(response, 84);
-        m_HWInfo.mod_State = Buf_To_Short(response, 86);
-        m_HWInfo.num_Chans = Buf_To_Short(response, 88);
+        Buf_To(response, 18, m_HWInfo.hw_Type);
+        Buf_To(response, 20, m_HWInfo.fw_Version);
+        Buf_To(response, 84, m_HWInfo.hw_Version);
+        Buf_To(response, 86, m_HWInfo.mod_State);
+        Buf_To(response, 88, m_HWInfo.num_Chans);
     }
     return m_HWInfo;
 
@@ -165,30 +160,27 @@ int LD_KCube::Identify(){
     return 0;
 }
 
-short Buf_To_Short(std::vector<uint8_t>buffer, int start_Byte){
-    return *((short*)&buffer[start_Byte]);
-}
-
-uint16_t Buf_To_Uint16(std::vector<uint8_t>buffer, int start_Byte){
-    return *((uint16_t*)&buffer[start_Byte]);
-}
-
-long Buf_To_Long(std::vector<uint8_t>buffer, int start_Byte){
-    return *((long*)&buffer[start_Byte]);
-}
-
-uint32_t Buf_To_Uint32(std::vector<uint8_t>buffer, int start_Byte){
-    return *((uint32_t*)&buffer[start_Byte]);
-}
-
-long long Buf_To_LongLong(std::vector<uint8_t>buffer, int start_Byte){
-    return *((long long*)&buffer[start_Byte]);
-}
-
-uint64_t Buf_To_Uint64(std::vector<uint8_t>buffer, int start_Byte){
-    return *((uint64_t*)&buffer[start_Byte]);
-}
-
-std::string Buf_To_String(std::vector<uint8_t>buffer, int start_Byte, int length){
-    return std::string(&buffer[start_Byte], &buffer[start_Byte + length]);
-}
+// Functions superceded by template in header
+//short Buf_To_Short(std::vector<uint8_t>buffer, int start_Byte){
+//    return *((short*)&buffer[start_Byte]);
+//}
+//
+//uint16_t Buf_To_Uint16(std::vector<uint8_t>buffer, int start_Byte){
+//    return *((uint16_t*)&buffer[start_Byte]);
+//}
+//
+//long Buf_To_Long(std::vector<uint8_t>buffer, int start_Byte){
+//    return *((long*)&buffer[start_Byte]);
+//}
+//
+//uint32_t Buf_To_Uint32(std::vector<uint8_t>buffer, int start_Byte){
+//    return *((uint32_t*)&buffer[start_Byte]);
+//}
+//
+//long long Buf_To_LongLong(std::vector<uint8_t>buffer, int start_Byte){
+//    return *((long long*)&buffer[start_Byte]);
+//}
+//
+//uint64_t Buf_To_Uint64(std::vector<uint8_t>buffer, int start_Byte){
+//    return *((uint64_t*)&buffer[start_Byte]);
+//}

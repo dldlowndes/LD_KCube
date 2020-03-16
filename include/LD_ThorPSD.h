@@ -6,9 +6,9 @@
 #include <string>
 
 struct PSD_Data{
-    int x_Diff;
-    int y_Diff;
-    int xy_Sum;
+    short x_Diff;
+    short y_Diff;
+    uint16_t xy_Sum;
 };
 
 class LD_ThorPSD : public LD_KCube

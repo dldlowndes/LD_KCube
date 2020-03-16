@@ -1,9 +1,13 @@
 # depslib dependency file v1.0
-1584364562 source:/home/dl3752/Work/github/LD_KCube/main.cpp
+1584372661 source:/home/dl3752/Work/github/LD_KCube/main.cpp
 	"LD_ThorPSD.h"
+	"LD_Timer.h"
+	"LD_ThorRotation.h"
+	<fstream>
 	<iostream>
+	<list>
 
-1584363662 /home/dl3752/Work/github/LD_KCube/include/LD_KCube.h
+1584373095 /home/dl3752/Work/github/LD_KCube/include/LD_KCube.h
 	<string>
 	<vector>
 
@@ -33,18 +37,31 @@
 	<errno.h>
 	<windows.h>
 
-1584361981 source:/home/dl3752/Work/github/LD_KCube/src/LD_KCube.cpp
+1584372837 source:/home/dl3752/Work/github/LD_KCube/src/LD_KCube.cpp
 	"LD_KCube.h"
 	<iostream>
 	"rs232.h"
 	"LD_Util.h"
 
-1584364458 source:/home/dl3752/Work/github/LD_KCube/src/LD_ThorPSD.cpp
+1584372597 source:/home/dl3752/Work/github/LD_KCube/src/LD_ThorPSD.cpp
 	"LD_ThorPSD.h"
 	<iostream>
 	<vector>
 
-1584364431 /home/dl3752/Work/github/LD_KCube/include/LD_ThorPSD.h
+1584372539 /home/dl3752/Work/github/LD_KCube/include/LD_ThorPSD.h
 	<LD_KCube.h>
 	<string>
+
+1584370610 source:/home/dl3752/Work/github/LD_KCube/src/LD_ThorRotation.cpp
+	"LD_ThorRotation.h"
+	<iostream>
+
+1584370546 /home/dl3752/Work/github/LD_KCube/include/LD_ThorRotation.h
+	"LD_KCube.h"
+
+1574684849 source:/home/dl3752/Work/github/LD_KCube/src/LD_Timer.cpp
+	"LD_Timer.h"
+
+1574684867 /home/dl3752/Work/github/LD_KCube/include/LD_Timer.h
+	<chrono>
 

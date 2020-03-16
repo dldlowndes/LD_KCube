@@ -1,0 +1,3 @@
+- Investigate templates for the conversion functions since they're all basically the same.
+- Add/change rotation mount code to work with this stuff too.
+- Test that this actually works.

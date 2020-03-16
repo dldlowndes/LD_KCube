@@ -22,16 +22,21 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-std=c++14" />
 			<Add directory="include" />
 			<Add directory="src" />
 		</Compiler>
 		<Unit filename="include/LD_KCube.h" />
 		<Unit filename="include/LD_ThorPSD.h" />
+		<Unit filename="include/LD_ThorRotation.h" />
+		<Unit filename="include/LD_Timer.h" />
 		<Unit filename="include/LD_Util.h" />
 		<Unit filename="include/rs232.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/LD_KCube.cpp" />
 		<Unit filename="src/LD_ThorPSD.cpp" />
+		<Unit filename="src/LD_ThorRotation.cpp" />
+		<Unit filename="src/LD_Timer.cpp" />
 		<Unit filename="src/LD_Util.cpp" />
 		<Unit filename="src/rs232.cpp" />
 		<Extensions>

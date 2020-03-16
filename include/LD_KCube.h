@@ -6,13 +6,13 @@
 
 struct HWInfo
 {
-    int serial_Number;
+    long serial_Number;
     std::string model_Number;
-    int hw_Type;
-    int fw_Version;
-    int hw_Version;
-    int mod_State;
-    int num_Chans;
+    short hw_Type;
+    long fw_Version;
+    short hw_Version;
+    short mod_State;
+    short num_Chans;
 };
 
 class LD_KCube
@@ -75,13 +75,23 @@ class LD_KCube
 
 };
 
-short Buf_To_Short(std::vector<uint8_t>buffer, int start_Byte);
-uint16_t Buf_To_Uint16(std::vector<uint8_t>buffer, int start_Byte);
-long Buf_To_Long(std::vector<uint8_t>buffer, int start_Byte);
-uint32_t Buf_To_Uint32(std::vector<uint8_t>buffer, int start_Byte);
-long long Buf_To_LongLong(std::vector<uint8_t>buffer, int start_Byte);
-uint64_t Buf_To_Uint64(std::vector<uint8_t>buffer, int start_Byte);
+// Replaced all the (non string) conversions with a template. Template has to modify the
+// value it's converting to by reference so the template can work properly. Still, it's more
+// elegant than loads of convert to/from functions.
 
-std::string Buf_To_String(std::vector<uint8_t>buffer, int start_Byte, int length);
+//short Buf_To_Short(std::vector<uint8_t>buffer, int start_Byte);
+//uint16_t Buf_To_Uint16(std::vector<uint8_t>buffer, int start_Byte);
+//long Buf_To_Long(std::vector<uint8_t>buffer, int start_Byte);
+//uint32_t Buf_To_Uint32(std::vector<uint8_t>buffer, int start_Byte);
+//long long Buf_To_LongLong(std::vector<uint8_t>buffer, int start_Byte);
+//uint64_t Buf_To_Uint64(std::vector<uint8_t>buffer, int start_Byte);
+template<class T>
+void Buf_To(std::vector<uint8_t> buffer, int start_Byte, T& out){
+    out = *((T*)&buffer[start_Byte]);
+}
+
+inline std::string Buf_To_String(std::vector<uint8_t>buffer, int start_Byte, int length){
+    return std::string(&buffer[start_Byte], &buffer[start_Byte + length]);
+}
 
 #endif // LD_KCUBE_H
