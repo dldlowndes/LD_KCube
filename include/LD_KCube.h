@@ -1,6 +1,7 @@
 #ifndef LD_KCUBE_H
 #define LD_KCUBE_H
 
+#include <cstring>
 #include <string>
 #include <vector>
 
@@ -85,13 +86,26 @@ class LD_KCube
 //uint32_t Buf_To_Uint32(std::vector<uint8_t>buffer, int start_Byte);
 //long long Buf_To_LongLong(std::vector<uint8_t>buffer, int start_Byte);
 //uint64_t Buf_To_Uint64(std::vector<uint8_t>buffer, int start_Byte);
-template<class T>
-void Buf_To(std::vector<uint8_t> buffer, int start_Byte, T& out){
-    out = *((T*)&buffer[start_Byte]);
-}
 
+// Some of the returned data from the K Cubes is strings so construct a string
+// from the relevant range of bytes.
 inline std::string Buf_To_String(std::vector<uint8_t>buffer, int start_Byte, int length){
     return std::string(&buffer[start_Byte], &buffer[start_Byte + length]);
+}
+
+// Copy some bytes from a K Cube "buffer" (starting at "start_Byte" into a value of some type
+// "value_Out". The manual specifies the type of return from each function. The number of bytes
+// from the buffer is determined by the size of "T".
+template<class T>
+void Buf_To(std::vector<uint8_t> buffer, int start_Byte, T& value_Out){
+    value_Out = *((T*)&buffer[start_Byte]);
+}
+
+// Copy a value "value_In" into a byte vector "buffer" (that will presumably be sent
+// to a K Cube), number of bytes copied is determined by the size of "T"
+template<class T>
+void To_Buf(T value_In, std::vector<uint8_t>&buffer, int start_Byte){
+    memcpy(&buffer[start_Byte], &value_In, sizeof(T));
 }
 
 #endif // LD_KCUBE_H
