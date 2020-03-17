@@ -1,6 +1,7 @@
 #include "LD_ThorPSD.h"
 #include "LD_Timer.h"
 #include "LD_ThorRotation.h"
+#include "LD_Util.h"
 
 #include <fstream>
 #include <iostream>
@@ -39,12 +40,15 @@ int PSD_Example(){
 int Rot_Example(){
     LD_ThorRotation my_DDR("ttyUSB0");
 
+    my_DDR.Move_Home();
+
+
+
     return 0;
 }
 
 int main(){
-    //PSD_Example();
-
+    Rot_Example();
 
     return 0;
 }

@@ -6,18 +6,14 @@
 #include "LD_Util.h"
 
 LD_KCube::LD_KCube(){
+    std::cout << "I'm a K Cube" << std::endl;
 }
 
 LD_KCube::~LD_KCube(){
+    std::cout << "K cube says bye!" << std::endl;
 }
 
-LD_KCube::LD_KCube(std::string comport_Name)
-{
-    LD_KCube();
-    Connect(comport_Name);
-}
-
-int LD_KCube::Connect(std::string comport_Name){
+int LD_KCube::Connect_Serial(std::string comport_Name){
     m_Comport_Number = RS232_GetPortnr(comport_Name.c_str());
     //std::cout << comport_Name << " is " << m_Comport_Number << "\n";
 
@@ -33,6 +29,9 @@ int LD_KCube::Connect(std::string comport_Name){
     MySleep(100);
 
     Init();
+
+    RS232_flushRXTX(m_Comport_Number);
+    MySleep(500);
 
     return 0;
 }
@@ -62,7 +61,7 @@ int LD_KCube::Init(){
 
 int LD_KCube::SendCommand(std::vector<uint8_t> command){
     // Flush the RX buffer in case there's leftovers in there.
-    RS232_flushRX(m_Comport_Number);
+    RS232_flushRXTX(m_Comport_Number);
 
     // Send the command.
     ser_Ret = RS232_SendBuf(m_Comport_Number, command.data(), command.size());
@@ -119,7 +118,7 @@ int LD_KCube::RecvResponse(std::vector<uint8_t> &response, int num_Chars, int wa
 }
 
 bool LD_KCube::CheckResponse(std::vector<uint8_t> response, std::vector<uint8_t> expected_Header){
-    bool header_Good = std::equal(response.begin(), response.begin()+6, expected_Header.begin());
+    bool header_Good = std::equal(response.begin(), response.begin()+expected_Header.size(), expected_Header.begin());
     if(!header_Good){
         std::cout << "Headers don't match!\n";
         std::cout << "Expected: ";
@@ -128,7 +127,7 @@ bool LD_KCube::CheckResponse(std::vector<uint8_t> response, std::vector<uint8_t>
         std::cout << std::dec <<"\n";
         std::cout << "Received: ";
         std::cout << std::hex;
-        for(int i=0; i<6; i++){std::cout << (int)response[i] << ", ";}
+        for(unsigned int i=0; i<expected_Header.size(); i++){std::cout << (int)response[i] << ", ";}
         std::cout << std::dec <<"\n";
     }
 

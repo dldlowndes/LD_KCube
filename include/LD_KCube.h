@@ -26,13 +26,13 @@ class LD_KCube
         // If the comport name is known at creation it can be given to
         // the constructor (this just runs the normal constructor and
         // then runs Connect(comport_Name).
-        LD_KCube(std::string comport_Name);
+        //LD_KCube(std::string comport_Name);
         // Will do any required destructing but also calls Close() to
         // handle the hardware
         ~LD_KCube();
 
         // Connect to the specified comport.
-        int Connect(std::string comport_Name);
+        int Connect_Serial(std::string comport_Name);
         // Disconnect the comport and any other housekeeping that might
         // be reqired on shutdown (like
         int Close();
