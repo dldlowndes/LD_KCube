@@ -14,12 +14,18 @@ LD_ThorRotation::~LD_ThorRotation(){
 }
 
 LD_ThorRotation::LD_ThorRotation(std::string comport_Name){
+    Init(comport_Name);
+}
+
+LD_ThorRotation::Init(std::string comport_Name){
     Connect_Serial(comport_Name);
 
     Set_Default_Params();
 
     // Enable the device.
     Set_Enable_State(true);
+
+    return 0;
 }
 
 int LD_ThorRotation::Set_Default_Params(){

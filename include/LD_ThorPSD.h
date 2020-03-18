@@ -19,6 +19,8 @@ class LD_ThorPSD : public LD_KCube
         LD_ThorPSD(std::string comport_Name);
         ~LD_ThorPSD();
 
+        int Init(std::string comport_Name);
+
         // The modes are 1:monitor, 2:openloop, 3:closedloop, 4:"auto"(see manual)
         // This code is mainly intended for open loop operation.
         int Get_Operation_Mode();

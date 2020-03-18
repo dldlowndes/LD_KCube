@@ -55,6 +55,8 @@ class LD_ThorRotation : public LD_KCube
         ~LD_ThorRotation();
         LD_ThorRotation(std::string comport_Name);
 
+        int Init(std::string comport_Name);
+
         Device_Scale_Factors Get_Device_Scale_Factors();
 
         int Get_Enable_State();

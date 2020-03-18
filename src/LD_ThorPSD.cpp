@@ -8,9 +8,14 @@ LD_ThorPSD::LD_ThorPSD(){
 }
 
 LD_ThorPSD::LD_ThorPSD(std::string comport_Name){
+    Init(comport_Name);
+}
+
+LD_ThorPSD::Init(std::string comport_Name){
     Connect_Serial(comport_Name);
 
     Set_Operation_Mode(0x01);
+    return 0;
 }
 
 LD_ThorPSD::~LD_ThorPSD(){
