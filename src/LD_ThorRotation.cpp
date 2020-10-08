@@ -13,17 +13,23 @@ LD_ThorRotation::~LD_ThorRotation(){
     //Move_Stop(true);
 }
 
-LD_ThorRotation::LD_ThorRotation(std::string comport_Name){
-    Init(comport_Name);
+LD_ThorRotation::LD_ThorRotation(std::string comport_Name, double origin_Angle){
+    Init(comport_Name, origin_Angle);
 }
 
-int LD_ThorRotation::Init(std::string comport_Name){
+int LD_ThorRotation::Init(std::string comport_Name, double origin_Angle){
+    m_Origin_Angle = origin_Angle;
+
     Connect_Serial(comport_Name);
 
     Set_Default_Params();
 
     // Enable the device.
     Set_Enable_State(true);
+
+    Move_Home();
+
+    Move_Absolute(m_Origin_Angle, true);
 
     return 0;
 }
@@ -146,12 +152,12 @@ int LD_ThorRotation::Set_Pos_Counter(double position_Degs){
     std::vector<uint8_t> command{0x10, 0x04, 0x06, 0x00, 0xD0, 0x01,
                                  0x01, 0x00,
                                  0x00, 0x00, 0x00, 0x00};
-int32_t position_DUs;
-Degrees_To_Device(position_Degs, position_DUs);
-To_Buf(position_DUs, command, 8);
+    int32_t position_DUs;
+    Degrees_To_Device(position_Degs, position_DUs);
+    To_Buf(position_DUs, command, 8);
 
-SendCommand(command);
-return 0;
+    SendCommand(command);
+    return 0;
 }
 
 double LD_ThorRotation::Get_Enc_Counter(){
@@ -494,34 +500,36 @@ Limit_Sw_Params LD_ThorRotation::Get_Limit_Switch_Params(){
     return params;
 }
 
+/*
 // This function doesn't work right now.
-//int LD_ThorRotation::Set_Limit_Switch_Params(Limit_Sw_Params params){
-//    std::vector<uint8_t> command{0x23, 0x04, 0x10, 0x00, 0xD0, 0x01,
-//                                 0x01, 0x00,
-//                                 0x00, 0x00,
-//                                 0x00, 0x00, 0x00, 0x00,
-//                                 0x00, 0x00, 0x00, 0x00,
-//                                 0x00, 0x00};
-//    uint32_t cw_Soft;
-//    uint32_t ccw_Soft;
-//
-//    Degrees_To_Device(params.cw_Soft_Limit, cw_Soft);
-//    Degrees_To_Device(params.ccw_Soft_Limit, ccw_Soft);
-//
-//    To_Buf(params.cw_Hard_Limit, command, 8);
-//    To_Buf(params.ccw_Hard_Limit, command, 10);
-//    To_Buf(cw_Soft, command, 12);
-//    To_Buf(ccw_Soft, command, 16);
-//    To_Buf(params.sw_Limit_Mode, command, 20);
-//
-//    std::cout << "Set lim sw params\n";
-//    SendCommand(command);
-//
-//    // TODO: Do something with this
-//    Get_Limit_Switch_Params();
-//
-//    return 0;
-//}
+int LD_ThorRotation::Set_Limit_Switch_Params(Limit_Sw_Params params){
+    std::vector<uint8_t> command{0x23, 0x04, 0x10, 0x00, 0xD0, 0x01,
+                                 0x01, 0x00,
+                                 0x00, 0x00,
+                                 0x00, 0x00, 0x00, 0x00,
+                                 0x00, 0x00, 0x00, 0x00,
+                                 0x00, 0x00};
+    uint32_t cw_Soft;
+    uint32_t ccw_Soft;
+
+    Degrees_To_Device(params.cw_Soft_Limit, cw_Soft);
+    Degrees_To_Device(params.ccw_Soft_Limit, ccw_Soft);
+
+    To_Buf(params.cw_Hard_Limit, command, 8);
+    To_Buf(params.ccw_Hard_Limit, command, 10);
+    To_Buf(cw_Soft, command, 12);
+    To_Buf(ccw_Soft, command, 16);
+    To_Buf(params.sw_Limit_Mode, command, 20);
+
+    std::cout << "Set lim sw params\n";
+    SendCommand(command);
+
+    // TODO: Do something with this
+    Get_Limit_Switch_Params();
+
+    return 0;
+}
+*/
 
 int LD_ThorRotation::Move_Home(){
     std::vector<uint8_t> command{0x43, 0x04, 0x01, 0x00, 0x50, 0x01};
@@ -542,6 +550,8 @@ int LD_ThorRotation::Move_Home(){
         std::cout << "Homing failed/timeout\n";
         return 1;
     }
+
+    MySleep(500);
 
     return 0;
 }
@@ -590,10 +600,17 @@ int LD_ThorRotation::Move(int32_t distance_DUs, bool relative, bool block){
     std::cout << "Moving" << std::endl;
     SendCommand(command);
 
+    // If requested (block=true), wait until the device has stopped reporting
+    // that it is moving. i.e. the requested movement is completed.
+    // For now there's a hard coded timeout in here just to stop it hanging
+    // if something weird happens.
+    int timeout_Tries = 50; // TODO: Put this somewhere settable.
+    int i = 0;
     if(block){
         do{
             MySleep(100);
-        }while(Get_Is_Moving());
+            i++;
+        }while(Get_Is_Moving() && (i < timeout_Tries));
 
     }
 
@@ -607,6 +624,8 @@ int LD_ThorRotation::Move_Relative(double move_Distance, bool block){
 }
 
 int LD_ThorRotation::Move_Absolute(double move_Distance, bool block){
+    move_Distance += m_Origin_Angle;
+
     int32_t distance_DUs;
     Degrees_To_Device(move_Distance, distance_DUs);
     return Move(distance_DUs, false, block);

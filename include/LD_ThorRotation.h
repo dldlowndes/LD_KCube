@@ -53,9 +53,9 @@ class LD_ThorRotation : public LD_KCube
     public:
         LD_ThorRotation();
         ~LD_ThorRotation();
-        LD_ThorRotation(std::string comport_Name);
+        LD_ThorRotation(std::string comport_Name, double origin_Angle=0);
 
-        int Init(std::string comport_Name);
+        int Init(std::string comport_Name, double origin_Angle=0);
 
         Device_Scale_Factors Get_Device_Scale_Factors();
 
@@ -119,6 +119,8 @@ class LD_ThorRotation : public LD_KCube
 //        int Req_Trigger();
 
     private:
+        double m_Origin_Angle = 0;
+
         int Move(int32_t distance_DUs, bool relative, bool block);
 
 
