@@ -29,7 +29,9 @@ int LD_ThorRotation::Init(std::string comport_Name, double origin_Angle){
 
     Move_Home();
 
-    Move_Absolute(m_Origin_Angle, true);
+    MySleep(500);
+
+    Move_Absolute(0, true);
 
     return 0;
 }
@@ -551,8 +553,6 @@ int LD_ThorRotation::Move_Home(){
         return 1;
     }
 
-    MySleep(500);
-
     return 0;
 }
 
@@ -604,7 +604,7 @@ int LD_ThorRotation::Move(int32_t distance_DUs, bool relative, bool block){
     // that it is moving. i.e. the requested movement is completed.
     // For now there's a hard coded timeout in here just to stop it hanging
     // if something weird happens.
-    int timeout_Tries = 50; // TODO: Put this somewhere settable.
+    int timeout_Tries = 100; // TODO: Put this somewhere settable.
     int i = 0;
     if(block){
         do{
