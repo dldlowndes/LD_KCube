@@ -538,6 +538,12 @@ int LD_ThorRotation::Move_Home(){
     std::vector<uint8_t> expected{0x44, 0x04, 0x01, 0x00, 0x01, 0x50};
     std::vector<uint8_t> response;
 
+    DDR_Status status = Get_StatusUpdate();
+    bool homed_Already = status.status_Bits & 0x00000400;
+    if (homed_Already){
+        std::cout << "Homed already. This message is for information only, will home stage again anyway\n";
+    }
+
     std::cout << "Move home\n";
     SendCommand(command);
 
