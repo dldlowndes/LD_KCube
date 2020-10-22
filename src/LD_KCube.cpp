@@ -18,6 +18,7 @@ int LD_KCube::Connect_Serial(std::string comport_Name){
     //std::cout << comport_Name << " is " << m_Comport_Number << "\n";
 
     ser_Ret = RS232_OpenComport(m_Comport_Number, 115200, "8n1");
+    std::cout << "Try to connect to " << comport_Name << "," << m_Comport_Number << "\n";
     if (ser_Ret == 0){
         std::cout << "Connected to " << comport_Name << " (number " << m_Comport_Number << ")\n";
     }
