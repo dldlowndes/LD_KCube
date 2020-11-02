@@ -38,11 +38,15 @@ int PSD_Example(){
 }
 
 int Rot_Example(){
-    LD_ThorRotation my_DDR("COM9", 50);
+    LD_ThorRotation my_DDR("ttyUSB0");
 
-    //my_DDR.Move_Home();
+    my_DDR.Move_Home(false);
 
+    my_DDR.Move_Absolute(180, true);
 
+    MySleep(2000);
+
+    my_DDR.Move_Absolute(0, true);
 
     return 0;
 }

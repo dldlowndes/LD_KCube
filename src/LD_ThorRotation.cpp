@@ -27,7 +27,7 @@ int LD_ThorRotation::Init(std::string comport_Name, double origin_Angle){
     // Enable the device.
     Set_Enable_State(true);
 
-    Move_Home();
+    Move_Home(false);
 
     MySleep(500);
 
@@ -533,15 +533,16 @@ int LD_ThorRotation::Set_Limit_Switch_Params(Limit_Sw_Params params){
 }
 */
 
-int LD_ThorRotation::Move_Home(){
+int LD_ThorRotation::Move_Home(bool force){
     std::vector<uint8_t> command{0x43, 0x04, 0x01, 0x00, 0x50, 0x01};
     std::vector<uint8_t> expected{0x44, 0x04, 0x01, 0x00, 0x01, 0x50};
     std::vector<uint8_t> response;
 
     DDR_Status status = Get_StatusUpdate();
     bool homed_Already = status.status_Bits & 0x00000400;
-    if (homed_Already){
-        std::cout << "Homed already. This message is for information only, will home stage again anyway\n";
+    if (homed_Already & !force){
+        std::cout << "Homed already. Not moving\n";
+        return 0;
     }
 
     std::cout << "Move home\n";
