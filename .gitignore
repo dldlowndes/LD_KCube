@@ -36,4 +36,4 @@ bin/*
 *.depend
 *.layout
 *.csv
-*.py
+

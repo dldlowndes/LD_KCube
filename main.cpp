@@ -38,7 +38,9 @@ int PSD_Example(){
 }
 
 int Rot_Example(){
-    LD_ThorRotation my_DDR("ttyUSB0");
+    LD_ThorRotation my_DDR("COM9");
+
+    my_DDR.Screen_Brightness(0);
 
     my_DDR.Move_Home(false);
 

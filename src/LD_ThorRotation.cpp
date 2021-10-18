@@ -533,6 +533,62 @@ int LD_ThorRotation::Set_Limit_Switch_Params(Limit_Sw_Params params){
 }
 */
 
+/*
+// This doesn't work, not sure why. Response header doesn't match manual
+// (byte that's supposed to be 0x1c comes out as 0x24). Leaving it for now
+// because it's not that important...
+int LD_ThorRotation::Screen_Brightness(unsigned int brightness){
+    std::vector<uint8_t> get_Command{0x21, 0x05, 0x01, 0x00, 0x50, 0x01};
+    std::vector<uint8_t> get_Response{0x22, 0x05, 0x1C, 0x00, 0x81, 0x50};
+    std::vector<uint8_t> set_Header{0x20, 0x05, 0x1C, 0x00, 0x50, 0x01};
+    std::vector<uint8_t> response;
+    std::vector<uint8_t> set_Command;
+
+    SendCommand(get_Command);
+    RecvResponse(response, 34, 50, 10000);
+    std::cout << std::hex;
+    for(auto &byte : response){std::cout << (int)byte << ",";}
+    std::cout << "\n";
+    std::cout << std::dec;
+
+    if (CheckResponse(response, get_Response)){
+        std::cout << "Got MMI Params\n";
+    }
+    else{
+        std::cout << "Get MMI params failed";
+        //return 1;
+    }
+
+    set_Command = response;
+
+    // bytes 28 & 29 are the brightness value (manual page 127);
+    To_Buf(brightness, set_Command, 28);
+    std::cout << std::hex;
+    for(auto &byte : set_Command){std::cout << (int)byte << ",";}
+    std::cout << "\n";
+    std::cout << std::dec;
+
+    // Change response packet to be a command packet by changing the header
+    To_Buf(set_Header, set_Command, 0); // will this work?!
+        std::cout << std::hex;
+    for(auto &byte : set_Command){std::cout << (int)byte << ",";}
+    std::cout << "\n";
+    std::cout << std::dec;
+
+    // Send the command
+    SendCommand(set_Command);
+
+//// This won't work because the headers are different but it seems prudent to
+//// check that the settings took by re-requesting them.
+//    SendCommand(get_Command);
+//    RecvResponse(response, 34, 50, 10000);
+
+//    CheckResponse(response, set_Command)
+
+    return 0;
+}
+*/
+
 int LD_ThorRotation::Move_Home(bool force){
     std::vector<uint8_t> command{0x43, 0x04, 0x01, 0x00, 0x50, 0x01};
     std::vector<uint8_t> expected{0x44, 0x04, 0x01, 0x00, 0x01, 0x50};

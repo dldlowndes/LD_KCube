@@ -76,17 +76,6 @@ class LD_KCube
 
 };
 
-// Replaced all the (non string) conversions with a template. Template has to modify the
-// value it's converting to by reference so the template can work properly. Still, it's more
-// elegant than loads of convert to/from functions.
-
-//short Buf_To_Short(std::vector<uint8_t>buffer, int start_Byte);
-//uint16_t Buf_To_Uint16(std::vector<uint8_t>buffer, int start_Byte);
-//long Buf_To_Long(std::vector<uint8_t>buffer, int start_Byte);
-//uint32_t Buf_To_Uint32(std::vector<uint8_t>buffer, int start_Byte);
-//long long Buf_To_LongLong(std::vector<uint8_t>buffer, int start_Byte);
-//uint64_t Buf_To_Uint64(std::vector<uint8_t>buffer, int start_Byte);
-
 // Some of the returned data from the K Cubes is strings so construct a string
 // from the relevant range of bytes.
 inline std::string Buf_To_String(std::vector<uint8_t>buffer, int start_Byte, int length){

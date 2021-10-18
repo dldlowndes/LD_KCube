@@ -83,6 +83,8 @@ class LD_ThorRotation : public LD_KCube
         //int Set_Limit_Switch_Params(Limit_Sw_Params params);
         int Set_Default_Params();
 
+        int Screen_Brightness(unsigned int brightness);
+
         int Move_Home(bool force=true);
         int Move_Relative(double move_Distance, bool block);
         int Move_Absolute(double move_Distance, bool block);
